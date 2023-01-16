@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      args:
+        USERNAME: node
+        VARIANT: 18-bullseye
+    env_file: ../.env
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+      - node-modules:/workspace/node_modules
+      - pnpm-store:/workspace/.pnpm-store
+      # Directory is created with Dockerfile
+      - vscode-extensions:/home/node/.vscode-server/extensions
+
+volumes:
+  node-modules:
+  pnpm-store:
+  vscode-extensions:

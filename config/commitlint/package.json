@@ -1,0 +1,27 @@
+{
+  "name": "@todo-app/commitlint-config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Commitlint config",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./src/index.cjs"
+    }
+  },
+  "main": "./src/index.cjs",
+  "files": [
+    "./src/index.cjs"
+  ],
+  "scripts": {
+    "lint:fix": "pnpm lint --fix",
+    "lint": "eslint --cache ."
+  },
+  "dependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2"
+  },
+  "devDependencies": {
+    "@commitlint/types": "^17.4.0"
+  }
+}

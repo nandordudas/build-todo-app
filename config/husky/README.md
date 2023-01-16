@@ -1,0 +1,3 @@
+# Husky
+
+> @todo-app/husky

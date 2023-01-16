@@ -1,0 +1,38 @@
+{
+  "name": "todo-app",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@7.25.0",
+  "author": {
+    "email": "nandor.dudas@gmail.com",
+    "name": "Nándor Dudás",
+    "url": "https://github.com/nandordudas"
+  },
+  "contributors": [
+    {
+      "name": "Csaba Nagy",
+      "url": "https://github.com/csba-nagy"
+    }
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.13.0",
+    "pnpm": ">=7.25.0"
+  },
+  "scripts": {
+    "lint": "turbo lint",
+    "prepare": "pnpm setup:husky",
+    "setup:husky": "husky install config/husky/src",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "@todo-app/commitlint-config": "workspace:*",
+    "@todo-app/eslint-config": "workspace:*",
+    "@todo-app/tsconfig": "workspace:*",
+    "eslint": "^8.32.0",
+    "turbo": "^1.7.0"
+  },
+  "eslintConfig": {
+    "extends": "@todo-app"
+  }
+}

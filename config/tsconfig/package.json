@@ -1,0 +1,18 @@
+{
+  "name": "@todo-app/tsconfig",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript config",
+  "license": "MIT",
+  "files": [
+    "./tsconfig.base.json",
+    "./tsconfig.strict.json",
+    "./tsconfig.strictest.json"
+  ],
+  "dependencies": {
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/node": "*"
+  }
+}
