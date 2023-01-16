@@ -15,7 +15,18 @@ services:
       # Directory is created with Dockerfile
       - vscode-extensions:/home/node/.vscode-server/extensions
 
+  postgres:
+    image: postgres:14.6-alpine
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+
 volumes:
   node-modules:
   pnpm-store:
+  postgres_data:
   vscode-extensions:
