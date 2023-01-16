@@ -4,8 +4,9 @@ services:
   app:
     build:
       args:
-        USERNAME: node
-        VARIANT: 18-bullseye
+        NODE_VERSION: 18
+        USERNAME: vscode
+        VARIANT: 8.2-bullseye
     env_file: ../.env
     command: sleep infinity
     volumes:
@@ -13,7 +14,7 @@ services:
       - node-modules:/workspace/node_modules
       - pnpm-store:/workspace/.pnpm-store
       # Directory is created with Dockerfile
-      - vscode-extensions:/home/node/.vscode-server/extensions
+      - vscode-extensions:/home/vscode/.vscode-server/extensions
 
   postgres:
     image: postgres:14.6-alpine
