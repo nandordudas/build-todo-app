@@ -1,17 +1,23 @@
 # [Choice] Node.js version (use -bullseye variants on local arm64/Apple Silicon):
 # 18, 16, 14, 18-bullseye, 16-bullseye, 14-bullseye, 18-buster, 16-buster, 14-buster
-ARG VARIANT=16-bullseye
+# ARG VARIANT=16-bullseye
+ARG VARIANT=8-bullseye
 
 # https://github.com/microsoft/vscode-dev-containers/tree/main/containers/typescript-node#readme
-FROM mcr.microsoft.com/devcontainers/typescript-node:0-${VARIANT}
+# FROM mcr.microsoft.com/devcontainers/typescript-node:0-${VARIANT}
+FROM mcr.microsoft.com/vscode/devcontainers/php:${VARIANT}
+
+ARG NODE_VERSION="none"
+RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # Uncomment this section to install additional OS packages.
-# ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
-# RUN \
-#   apt-get update && \
-#   apt-get -y install --no-install-recommends \
-#   openjdk-11-jre-headless
+RUN \
+  apt-get update && \
+  apt-get -y install --no-install-recommends \
+  libpq-dev && \
+  docker-php-ext-install pdo_pgsql
 
 ARG USERNAME
 

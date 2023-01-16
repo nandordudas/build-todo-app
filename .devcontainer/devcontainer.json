@@ -20,7 +20,7 @@
   // "forwardPorts": [],
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": {
-    "setupFolderPrivileges": "sudo chown node .pnpm-store node_modules",
+    "setupFolderPrivileges": "sudo chown vscode .pnpm-store node_modules",
     "installDependencies": "pnpm install"
   },
   "dockerComposeFile": "docker-compose.yml",
