@@ -17,4 +17,6 @@ cp .env.example .env
 code . --remote wsl+Ubuntu
 ```
 
-Start with APP-1 task and continue the work.
+Start with [APP-1] task and continue the work.
+
+[APP-1]: https://github.com/nandordudas/build-todo-app/issues/1
