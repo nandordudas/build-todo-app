@@ -15,6 +15,7 @@ services:
       - pnpm-store:/workspace/.pnpm-store
       # Directory is created with Dockerfile
       - vscode-extensions:/home/vscode/.vscode-server/extensions
+    network_mode: service:postgres
 
   postgres:
     image: postgres:14.6-alpine
