@@ -1,2 +1,2 @@
-INSERT INTO todos(title)
-	VALUES('task-01');
+insert into todos(title)
+	values('task-01')
