@@ -1,5 +1,4 @@
-UPDATE todos SET
+update todos set
   title='#1 task'
-
-WHERE 1=1
-  AND todos.id = 1;
+where 1=1
+  and todos.id = 1

@@ -1,2 +1,2 @@
-INSERT INTO todo_status(todo_id, status_id)
-  VALUES (1, 1);
+insert into todo_status(todo_id, status_id)
+  values (1, 1)

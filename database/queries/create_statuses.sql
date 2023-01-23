@@ -1,5 +1,5 @@
-INSERT INTO statuses (title)
-	VALUES ('pending');
+insert into statuses (title)
+	values('pending');
 
-INSERT INTO statuses(title)
-	VALUES ('completed');
+insert into statuses(title)
+	values('completed');

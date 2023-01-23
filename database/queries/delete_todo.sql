@@ -1,4 +1,4 @@
-DELETE FROM todos
-
-    WHERE 1=1
-		  AND todos.id = 1;
+delete
+  from todos
+where 1=1
+  and todos.id = 1
