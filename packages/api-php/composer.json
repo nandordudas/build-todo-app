@@ -1,0 +1,27 @@
+{
+  "name": "todo-app/api-php",
+  "description": "PHP Api Service for To-Do Application",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "TodoApp\\ApiPhp\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Csaba Nagy",
+      "email": "n.csaba1991@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/csaba-nagy/database-adapter-php"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^8.0.2",
+    "csaba-nagy/database-adapter-php": "dev-main"
+  }
+}
