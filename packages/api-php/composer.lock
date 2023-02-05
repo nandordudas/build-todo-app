@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c7a2041bad1aeb60922f239e4317de1b",
+    "packages": [
+        {
+            "name": "csaba-nagy/database-adapter-php",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/csaba-nagy/database-adapter-php.git",
+                "reference": "0c522dd559cce3383df9eabadae378c70fed5056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/csaba-nagy/database-adapter-php/zipball/0c522dd559cce3383df9eabadae378c70fed5056",
+                "reference": "0c522dd559cce3383df9eabadae378c70fed5056",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DatabaseAdapterPhp\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Csaba Nagy",
+                    "email": "n.csaba1991@gmail.com"
+                }
+            ],
+            "description": "Database Adapter for PHP API services",
+            "support": {
+                "source": "https://github.com/csaba-nagy/database-adapter-php/tree/0.2.0",
+                "issues": "https://github.com/csaba-nagy/database-adapter-php/issues"
+            },
+            "time": "2023-02-03T18:27:40+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "csaba-nagy/database-adapter-php": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.0.2"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
