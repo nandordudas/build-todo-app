@@ -10,5 +10,5 @@ interface ModelInterface
   public function create(array $payload): array;
   public function getById(int $id): array;
   public function update(array $payload): array;
-  public function delete(int $id): array;
+  public function delete(int $id): void;
 }

@@ -13,7 +13,7 @@ abstract class BaseModel implements ModelInterface
   abstract public function create(array $payload): array;
   abstract public function getById(int $id): array;
   abstract public function update(array $payload): array;
-  abstract public function delete(int $id): array;
+  abstract public function delete(int $id): void;
 
   public function __construct(protected AbstractDatabaseConnector $database)
   {
