@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TodoApp\ApiPhp\Controllers;
 
+use Exception;
 use TodoApp\ApiPhp\Repositories\BaseRepository;
 
 abstract class BaseController
@@ -17,9 +18,9 @@ abstract class BaseController
     return $this->repository->findAll();
   }
 
-  public function show(int $id)
+  public function show(int $id): array
   {
-    return $this->repository->getById($id);
+      return $this->repository->getById($id);
   }
 
   public function store(array $payload): array
@@ -32,7 +33,7 @@ abstract class BaseController
     return $this->repository->update($payload);
   }
 
-  public function destroy(int $id): array
+  public function destroy(int $id): void
   {
     return $this->repository->delete($id);
   }

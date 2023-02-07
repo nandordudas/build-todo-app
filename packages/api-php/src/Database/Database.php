@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace TodoApp\ApiPhp\Database;
 
-use DatabaseAdapterPhp\Abstractions\AbstractDatabaseConnector;
+use DatabaseAdapterPhp\Contracts\Connectable;
 use DatabaseAdapterPhp\Factories\PostgreSQLConnectionFactory;
 
 class Database
 {
-  private static ?AbstractDatabaseConnector $connection;
+  private static ?Connectable $connection;
 
   // TODO: use environment variables to set the connection data
   private const CONNECTION_DATA = null;

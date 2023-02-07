@@ -32,7 +32,7 @@ abstract class BaseRepository
     return $this->model->update($payload);
   }
 
-  public function delete(int $id): array
+  public function delete(int $id): void
   {
     return $this->model->delete($id);
   }
