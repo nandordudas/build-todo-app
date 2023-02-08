@@ -34,6 +34,6 @@ abstract class BaseRepository
 
   public function delete(int $id): void
   {
-    return $this->model->delete($id);
+    $this->model->delete($id);
   }
 }

@@ -9,4 +9,4 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $controller = new TodoController();
 
-var_dump($controller->update(['id' => 52, 'title' => 'sdasdasdas', 'status' => Statuses::COMPLETED]));
+var_dump($controller->index());

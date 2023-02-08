@@ -35,6 +35,6 @@ abstract class BaseController
 
   public function destroy(int $id): void
   {
-    return $this->repository->delete($id);
+    $this->repository->delete($id);
   }
 }
