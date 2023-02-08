@@ -42,13 +42,13 @@ class TodoModel extends BaseModel
             values(:title)
             SQL;
 
-    $newTodo = $this->database->fetch($query, ['title' => $payload['title']]);
+    $this->database->fetch($query, ['title' => $payload['title']]);
 
     $lastInsertedId = $this->database->getLastInsertedId();
 
     $this->setStatus($lastInsertedId);
 
-    return $newTodo;
+    return $this->getById($lastInsertedId);
   }
 
   public function getById(int $id): array
