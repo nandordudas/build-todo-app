@@ -1,7 +1,8 @@
 import type { PoolConfig } from 'pg'
 
+const { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT } = process.env
+
 export const getConnectionData = (): PoolConfig => {
-  const { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT } = process.env
   const port = Number(PGPORT)
 
   if (isNaN(port)) {
