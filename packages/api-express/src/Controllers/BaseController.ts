@@ -11,40 +11,30 @@ abstract class BaseController<T extends BaseModelType, V extends Payload> {
     this.repository = repository
   }
 
-  public index = async (
+  public abstract index(
     _request: Request,
     _response: Response,
-    _next: NextFunction): Promise<Response | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+    _next: NextFunction): Promise<Response | undefined>
 
-  public show = async (
+  public abstract show(
     _request: Request,
     _response: Response,
-    _next: NextFunction): Promise<Response | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+    _next: NextFunction): Promise<Response | undefined>
 
-  public store = async (
+  public abstract store(
     _request: Request,
     _response: Response,
-    _next: NextFunction): Promise<Response | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+    _next: NextFunction): Promise<Response | undefined>
 
-  public update = async (
+  public abstract update(
     _request: Request,
     _response: Response,
-    _next: NextFunction): Promise<Response | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+    _next: NextFunction): Promise<Response | undefined>
 
-  public destroy = async (
+  public abstract destroy(
     _request: Request,
     _response: Response,
-    _next: NextFunction): Promise<Response | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+    _next: NextFunction): Promise<Response | undefined>
 }
 
 export default BaseController
