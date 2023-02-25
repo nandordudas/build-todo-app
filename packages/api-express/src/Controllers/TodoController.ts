@@ -6,6 +6,8 @@ import TodoRepository from '../Repositories/TodoRepository'
 import type Todo from '../types/Todo'
 import type TodoPayload from '../types/TodoPayload'
 import type TodoResponse from '../types/TodoResponse'
+import PayloadValidator from '../Utilities/Validators/PayloadValidator'
+import PayloadSchema from '../Utilities/Validators/Schema/PayloadSchema'
 
 class TodoController extends BaseController<Todo, TodoPayload> {
   constructor() {
@@ -17,8 +19,8 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
-      const limit = Number(request.params.limit) ?? 10
-      const offset = Number(request.params.offset) ?? 0
+      const limit = parseInt(request.query.limit as string) || 10
+      const offset = parseInt(request.query.offset as string) || 0
 
       const result = await this.repository.getAll(limit, offset)
 
@@ -56,11 +58,22 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
-      const payload: TodoPayload = request.body
+      // TODO: Validator can be a property in the controller
+      const validator = new PayloadValidator()
 
-      const result = await this.repository.create(payload) as Todo
+      const payload: TodoPayload = await request.body
 
-      return response.status(201).send({
+      console.log(payload)
+
+      if (!payload || !validator.validate(payload))
+        throw new Error('Invalid or missing payload arguments!')
+
+      const result = await this.repository.create(payload)
+
+      if (!result)
+        throw new Error('Task cannot be created!')
+
+      return response.status(HttpStatusCodes.CREATED).send({
         status: 'CREATED',
         data: result,
       })
@@ -75,11 +88,18 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
+      const validator = new PayloadValidator(new PayloadSchema().getSchema)
+
       const { id } = request.params
+      const payload = request.body
 
-      const payload: TodoPayload = request.body
+      if (!validator.validate(payload))
+        throw new Error('Invalid payload arguments!')
 
-      const result = await this.repository.update(id, payload) as Todo
+      const result = await this.repository.update(id, payload)
+
+      if (!result)
+        throw new Error('Task cannot be updated!')
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -98,7 +118,7 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     try {
       const { id } = request.params
 
-      await this.repository.delete(id)
+      this.repository.delete(id)
 
       return response.status(HttpStatusCodes.NO_CONTENT)
     }

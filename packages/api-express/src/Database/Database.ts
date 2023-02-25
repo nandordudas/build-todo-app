@@ -2,7 +2,7 @@ import type { ConnectionConfig, PoolClient, QueryResultRow } from 'pg'
 import { Pool } from 'pg'
 
 import type Query from '../types/Query'
-import EnvValidator from '../Utilities/EnvValidator'
+import EnvValidator from '../Utilities/Validators/EnvValidator'
 
 class Database {
   public static instance: Database
