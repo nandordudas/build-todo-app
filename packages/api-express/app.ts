@@ -3,6 +3,7 @@ import express, { json, urlencoded } from 'express'
 
 import Database from './src/Database/Database'
 import errorMiddleware from './src/Middleware/error'
+import TodoRouter from './src/Routers/TodoRouter'
 import EnvValidator from './src/Utilities/Validators/EnvValidator'
 import EnvFileSchema from './src/Utilities/Validators/Schema/EnvFileSchema'
 
@@ -16,6 +17,7 @@ class Application {
 
     const app = express()
     const db = Database.getInstance()
+    const todoRouter = new TodoRouter().router
 
     if (!db.isConnected())
       throw new Error('Database connection failed.')
@@ -25,6 +27,7 @@ class Application {
 
     return app
       .use(json(), urlencoded({ extended: true }))
+      .use('/', todoRouter)
       .use(errorMiddleware)
   }
 }
