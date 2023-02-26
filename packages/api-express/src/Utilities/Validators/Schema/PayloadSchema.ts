@@ -1,5 +1,4 @@
 import BaseSchema from './BaseSchema'
-import { TodoStatuses } from '../../../types/TodoStatuses'
 import Rules from '../Rules'
 
 class PayloadSchema extends BaseSchema {
@@ -15,7 +14,7 @@ class PayloadSchema extends BaseSchema {
       {
         property: 'status',
         rules: [
-          (value: string) => Object.keys(TodoStatuses).includes(value),
+          Rules.rules.status,
         ],
       },
     ])

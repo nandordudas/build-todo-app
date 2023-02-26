@@ -1,9 +1,8 @@
 import type Todo from './Todo'
-import type { HttpStatus } from '../Enums/HttpStatusCodes'
 
 interface TodoResponse {
-  status: HttpStatus
-  data: Todo | Todo[]
+  status: 'OK' | 'FAILED'
+  data: Todo | Todo[] | string
 }
 
 export default TodoResponse

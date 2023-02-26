@@ -17,7 +17,7 @@ abstract class BaseRepository<T extends BaseModelType, V extends Payload> {
 
   public abstract update(_id: string, _payload: V): Promise<T | undefined>
 
-  public abstract delete(_id: string): void
+  public abstract delete(_id: string): Promise<boolean>
 }
 
 export default BaseRepository

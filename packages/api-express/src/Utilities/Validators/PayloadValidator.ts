@@ -15,14 +15,12 @@ class PayloadValidator extends Validator {
       return false
 
     const result = validationRules.map(({ property, rules }) => {
-      const res = rules.filter((fn) => {
-        return !fn(payload[property])
-      })
+      const res = rules.map(fn => fn(payload[property]))
 
-      return res.length === 0
+      return res.every(element => element === true)
     })
 
-    return result.length === 0
+    return result.every(element => element === true)
   }
 }
 
