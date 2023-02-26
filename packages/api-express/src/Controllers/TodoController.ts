@@ -6,6 +6,8 @@ import TodoRepository from '../Repositories/TodoRepository'
 import type Todo from '../types/Todo'
 import type TodoPayload from '../types/TodoPayload'
 import type TodoResponse from '../types/TodoResponse'
+import ResponseError from '../Utilities/Errors/ResponseError'
+import ValidationError from '../Utilities/Errors/ValidationError'
 import PayloadValidator from '../Utilities/Validators/PayloadValidator'
 
 class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator> {
@@ -23,13 +25,8 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
 
       const result = await this.repository.getAll(limit, offset)
 
-      if (!result) {
-        return response
-          .status(HttpStatusCodes.NOT_FOUND).send({
-            status: 'FAILED',
-            data: 'Tasks cannot be found!',
-          })
-      }
+      if (!result)
+        throw new ResponseError(HttpStatusCodes.BAD_REQUEST, 'Tasks cannot be found')
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -50,14 +47,8 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
 
       const result = await this.repository.getById(id)
 
-      if (!result) {
-        return response
-          .status(HttpStatusCodes.NOT_FOUND)
-          .send({
-            status: 'FAILED',
-            data: 'Task cannot be found!',
-          })
-      }
+      if (!result)
+        throw new ResponseError(HttpStatusCodes.BAD_REQUEST, 'Task cannot be found')
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -76,25 +67,13 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
     try {
       const payload: TodoPayload = request.body
 
-      if (!payload || !this.validator.validate(payload)) {
-        return response
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .send({
-            status: 'FAILED',
-            data: 'Validation Error: Missing or invalid payload parameters!',
-          })
-      }
+      if (!payload || !this.validator.validate(payload))
+        throw new ValidationError(HttpStatusCodes.BAD_REQUEST, 'Missing payload parameters!')
 
       const result = await this.repository.create(payload)
 
-      if (!result) {
-        return response
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .send({
-            status: 'FAILED',
-            data: 'Task cannot be created!',
-          })
-      }
+      if (!result)
+        throw new ResponseError(HttpStatusCodes.BAD_REQUEST, 'Task cannot be created!')
 
       return response.status(HttpStatusCodes.CREATED).send({
         status: 'OK',
@@ -115,25 +94,13 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
 
       const payload: TodoPayload = request.body
 
-      if (!payload || !this.validator.validate(payload)) {
-        return response
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .send({
-            status: 'FAILED',
-            data: 'Validation Error: Missing or invalid payload parameters!',
-          })
-      }
+      if (!payload || !this.validator.validate(payload))
+        throw new ValidationError(HttpStatusCodes.BAD_REQUEST, 'Missing or invalid payload parameters!')
 
       const result = await this.repository.update(id, payload)
 
-      if (!result) {
-        return response
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .send({
-            status: 'FAILED',
-            data: 'Task cannot be updated!',
-          })
-      }
+      if (!result)
+        throw new ResponseError(HttpStatusCodes.BAD_REQUEST, 'Task cannot be updated!')
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -154,14 +121,8 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
 
       const result = await this.repository.delete(id)
 
-      if (!result) {
-        return response
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .send({
-            status: 'FAILED',
-            data: 'Task cannot be deleted!',
-          })
-      }
+      if (!result)
+        throw new ResponseError(HttpStatusCodes.BAD_REQUEST, 'Task cannot be deleted!')
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',

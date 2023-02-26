@@ -114,6 +114,11 @@ class TodoModel extends BaseModel<Todo, TodoPayload> {
       values: [id, payload.title],
     }
 
+    const task = await this.getById(id)
+
+    if (!task)
+      return undefined
+
     try {
       this.databaseConnection.startTransaction()
 
