@@ -1,7 +1,5 @@
-import type { Payload } from '../../types/Payload'
-
 interface Validateable {
-  validate(payload: Payload | undefined): boolean
+  validate(payload: Record<string, any>): boolean
 }
 
 export default Validateable
