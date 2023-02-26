@@ -7,6 +7,4 @@ const HttpStatusCodes = Object.freeze({
   SERVER_ERROR: 500,
 })
 
-export type HttpStatus = keyof typeof HttpStatusCodes
-
 export default HttpStatusCodes
