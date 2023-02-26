@@ -7,7 +7,6 @@ import type Todo from '../types/Todo'
 import type TodoPayload from '../types/TodoPayload'
 import type TodoResponse from '../types/TodoResponse'
 import PayloadValidator from '../Utilities/Validators/PayloadValidator'
-import PayloadSchema from '../Utilities/Validators/Schema/PayloadSchema'
 
 class TodoController extends BaseController<Todo, TodoPayload> {
   constructor() {
@@ -23,6 +22,14 @@ class TodoController extends BaseController<Todo, TodoPayload> {
       const offset = parseInt(request.query.offset as string) || 0
 
       const result = await this.repository.getAll(limit, offset)
+
+      if (!result) {
+        return response
+          .status(HttpStatusCodes.NOT_FOUND).send({
+            status: 'FAILED',
+            data: 'Tasks cannot be found!',
+          })
+      }
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -43,6 +50,15 @@ class TodoController extends BaseController<Todo, TodoPayload> {
 
       const result = await this.repository.getById(id)
 
+      if (!result) {
+        return response
+          .status(HttpStatusCodes.NOT_FOUND)
+          .send({
+            status: 'FAILED',
+            data: 'Task cannot be found!',
+          })
+      }
+
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
         data: result,
@@ -61,20 +77,24 @@ class TodoController extends BaseController<Todo, TodoPayload> {
       // TODO: Validator can be a property in the controller
       const validator = new PayloadValidator()
 
-      const payload: TodoPayload = await request.body
-
-      console.log(payload)
+      const payload: TodoPayload = request.body
 
       if (!payload || !validator.validate(payload))
         throw new Error('Invalid or missing payload arguments!')
 
       const result = await this.repository.create(payload)
 
-      if (!result)
-        throw new Error('Task cannot be created!')
+      if (!result) {
+        return response
+          .status(HttpStatusCodes.BAD_REQUEST)
+          .send({
+            status: 'FAILED',
+            data: 'Task cannot be created!',
+          })
+      }
 
       return response.status(HttpStatusCodes.CREATED).send({
-        status: 'CREATED',
+        status: 'OK',
         data: result,
       })
     }
@@ -88,18 +108,25 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
-      const validator = new PayloadValidator(new PayloadSchema().getSchema)
+      const validator = new PayloadValidator()
 
       const { id } = request.params
-      const payload = request.body
+
+      const payload: TodoPayload = request.body
 
       if (!validator.validate(payload))
-        throw new Error('Invalid payload arguments!')
+        throw new Error('Invalid or missing payload arguments!')
 
       const result = await this.repository.update(id, payload)
 
-      if (!result)
-        throw new Error('Task cannot be updated!')
+      if (!result) {
+        return response
+          .status(HttpStatusCodes.BAD_REQUEST)
+          .send({
+            status: 'FAILED',
+            data: 'Task cannot be updated!',
+          })
+      }
 
       return response.status(HttpStatusCodes.OK).send({
         status: 'OK',
@@ -113,14 +140,26 @@ class TodoController extends BaseController<Todo, TodoPayload> {
 
   public override destroy = async (
     request: Request,
-    response: Response,
+    response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
       const { id } = request.params
 
-      this.repository.delete(id)
+      const result = await this.repository.delete(id)
 
-      return response.status(HttpStatusCodes.NO_CONTENT)
+      if (!result) {
+        return response
+          .status(HttpStatusCodes.BAD_REQUEST)
+          .send({
+            status: 'FAILED',
+            data: 'Task cannot be deleted!',
+          })
+      }
+
+      return response.status(HttpStatusCodes.OK).send({
+        status: 'OK',
+        data: 'Task has been deleted successfully!',
+      })
     }
     catch (error) {
       next(error)

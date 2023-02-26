@@ -148,11 +148,14 @@ class TodoModel extends BaseModel<Todo, TodoPayload> {
         FROM todos
       WHERE 1=1
         AND todos.id = $1
+      RETURNING todos.id
       `,
       values: [id],
     }
 
-    await this.databaseConnection.runQuery(query)
+    const result = await this.databaseConnection.runQuery<Todo>(query)
+
+    return result.rowCount > 0
   }
 
   private setStatus = async (id: string, status: TodoStatus = 'pending') => {

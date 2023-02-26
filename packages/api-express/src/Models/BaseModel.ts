@@ -10,25 +10,15 @@ abstract class BaseModel<T extends BaseModelType, V extends Payload> implements 
     this.databaseConnection = Database.getInstance()
   }
 
-  public getAll = async (_limit: number, _offset: number): Promise<T[]> => {
-    throw new Error('Method not implemented.')
-  }
+  public abstract getAll(_limit: number, _offset: number): Promise<T[]>
 
-  public create = (_payload: V): Promise<T | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+  public abstract create(_payload: V): Promise<T | undefined>
 
-  public getById = (_id: string): Promise<T> => {
-    throw new Error('Method not implemented.')
-  }
+  public abstract getById(_id: string): Promise<T>
 
-  public update = (_id: string, _payload: V): Promise<T | undefined> => {
-    throw new Error('Method not implemented.')
-  }
+  public abstract update(_id: string, _payload: V): Promise<T | undefined>
 
-  public delete = (_id: string): void => {
-    throw new Error('Method not implemented.')
-  }
+  public abstract delete(_id: string): Promise<boolean>
 }
 
 export default BaseModel
