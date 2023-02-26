@@ -8,9 +8,9 @@ import type TodoPayload from '../types/TodoPayload'
 import type TodoResponse from '../types/TodoResponse'
 import PayloadValidator from '../Utilities/Validators/PayloadValidator'
 
-class TodoController extends BaseController<Todo, TodoPayload> {
+class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator> {
   constructor() {
-    super(new TodoRepository())
+    super(new TodoRepository(), new PayloadValidator())
   }
 
   public override index = async (
@@ -74,13 +74,16 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
-      // TODO: Validator can be a property in the controller
-      const validator = new PayloadValidator()
-
       const payload: TodoPayload = request.body
 
-      if (!payload || !validator.validate(payload))
-        throw new Error('Invalid or missing payload arguments!')
+      if (!payload || !this.validator.validate(payload)) {
+        return response
+          .status(HttpStatusCodes.BAD_REQUEST)
+          .send({
+            status: 'FAILED',
+            data: 'Validation Error: Missing or invalid payload parameters!',
+          })
+      }
 
       const result = await this.repository.create(payload)
 
@@ -108,14 +111,18 @@ class TodoController extends BaseController<Todo, TodoPayload> {
     response: Response<TodoResponse>,
     next: NextFunction) => {
     try {
-      const validator = new PayloadValidator()
-
       const { id } = request.params
 
       const payload: TodoPayload = request.body
 
-      if (!validator.validate(payload))
-        throw new Error('Invalid or missing payload arguments!')
+      if (!payload || !this.validator.validate(payload)) {
+        return response
+          .status(HttpStatusCodes.BAD_REQUEST)
+          .send({
+            status: 'FAILED',
+            data: 'Validation Error: Missing or invalid payload parameters!',
+          })
+      }
 
       const result = await this.repository.update(id, payload)
 

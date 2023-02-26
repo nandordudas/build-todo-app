@@ -5,15 +5,14 @@ import Database from './src/Database/Database'
 import errorMiddleware from './src/Middleware/error'
 import TodoRouter from './src/Routers/TodoRouter'
 import EnvValidator from './src/Utilities/Validators/EnvValidator'
-import EnvFileSchema from './src/Utilities/Validators/Schema/EnvFileSchema'
 
 class Application {
   public static async main() {
     dotenv.config()
 
-    const envValidator = new EnvValidator(new EnvFileSchema().getSchema)
+    const envValidator = new EnvValidator()
 
-    envValidator.validate()
+    envValidator.validate(process.env)
 
     const app = express()
     const db = Database.getInstance()
