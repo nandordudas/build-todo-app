@@ -13,12 +13,7 @@ class Database {
     this.pool = new Pool(this.configure())
   }
 
-  public static getInstance = () => {
-    if (!Database.instance)
-      Database.instance = new Database()
-
-    return Database.instance
-  }
+  public static getInstance = () => Database.instance ??= new Database()
 
   public isConnected = () => Boolean(this.pool)
 
@@ -38,21 +33,21 @@ class Database {
     if (!this.client)
       throw new Error('Transaction cannot be committed.')
 
-    await this.client?.query('COMMIT')
+    await this.client.query('COMMIT')
   }
 
   public rollback = async () => {
     if (!this.client)
       throw new Error('Transaction rollback cannot be performed.')
 
-    await this.client?.query('ROLLBACK')
+    await this.client.query('ROLLBACK')
   }
 
   public releaseClient = async () => {
     if (!this.client)
       throw new Error('Transaction client cannot be released.')
 
-    this.client?.release()
+    this.client.release()
   }
 
   private configure = (): ConnectionConfig => {
