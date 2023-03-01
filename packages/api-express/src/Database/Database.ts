@@ -2,7 +2,6 @@ import type { ConnectionConfig, PoolClient, QueryResultRow } from 'pg'
 import { Pool } from 'pg'
 
 import type { Query } from '~/types'
-import EnvValidator from '~/Utilities/Validators/EnvValidator'
 
 class Database {
   public static instance: Database
@@ -19,6 +18,26 @@ class Database {
 
   public runQuery = async <T extends QueryResultRow>({ text, values }: Query) =>
     await this.pool.query<T>(text, values)
+
+  /**
+   *
+   * @example
+   *
+   * ```ts
+   * const db = new Database()
+   *
+   * await db.useTransaction(async () => 'yaaay').catch(console.error)
+   * ```
+   */
+  public async useTransaction(cb: () => Promise<void>) {
+    const promiseChain = [
+      this.startTransaction(),
+      cb(),
+      this.commit(),
+    ]
+
+    return Promise.all(promiseChain).catch(this.rollback)
+  }
 
   public startTransaction = async () => {
     this.client = await this.pool.connect()
@@ -51,19 +70,17 @@ class Database {
   }
 
   private configure = (): ConnectionConfig => {
-    const { PGPORT, PGUSER, PGHOST, PGDATABASE, PGPASSWORD } = process.env
-
-    const port = PGPORT ? EnvValidator.parsePort(PGPORT) : null
-
-    if (!port)
+    if (!process.env?.PGPORT)
       throw new Error('The given port is invalid!')
+
+    const { PGPORT, PGUSER, PGHOST, PGDATABASE, PGPASSWORD } = process.env
 
     return {
       user: PGUSER,
       host: PGHOST,
       database: PGDATABASE,
       password: PGPASSWORD,
-      port,
+      port: +PGPORT,
     }
   }
 }

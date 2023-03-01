@@ -41,6 +41,13 @@ class EnvFileSchema extends BaseSchema {
         ],
       },
       {
+        property: 'PGPORT',
+        rules: [
+          Rules.rules.exists,
+          Rules.rules.string,
+        ],
+      },
+      {
         property: 'PGDATABASE',
         rules: [
           Rules.rules.exists,
