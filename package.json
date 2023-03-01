@@ -25,6 +25,9 @@
     "setup:husky": "husky install config/husky/src",
     "typecheck": "turbo typecheck"
   },
+  "dependencies": {
+    "pg": "^8.9.0"
+  },
   "devDependencies": {
     "@todo-app/commitlint-config": "workspace:*",
     "@todo-app/eslint-config": "workspace:*",
@@ -35,8 +38,5 @@
   },
   "eslintConfig": {
     "extends": "@todo-app"
-  },
-  "dependencies": {
-    "pg": "^8.9.0"
   }
 }
