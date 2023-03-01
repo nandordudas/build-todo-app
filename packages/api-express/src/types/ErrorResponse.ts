@@ -1,6 +1,4 @@
-interface ErrorResponse {
+export interface ErrorResponse {
   status: number
   message: string
 }
-
-export default ErrorResponse

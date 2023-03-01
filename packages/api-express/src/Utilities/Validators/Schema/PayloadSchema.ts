@@ -1,5 +1,6 @@
+import Rules from '~/Utilities/Validators/Rules'
+
 import BaseSchema from './BaseSchema'
-import Rules from '../Rules'
 
 class PayloadSchema extends BaseSchema {
   constructor() {

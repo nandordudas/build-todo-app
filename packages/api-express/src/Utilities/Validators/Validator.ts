@@ -1,12 +1,8 @@
 import type { Schema } from './Schema/Schematizeable'
-import type Validateable from './Validateable'
+import type { Validateable } from './Validateable'
 
 abstract class Validator implements Validateable {
-  protected schema: Schema
-
-  constructor(schema: Schema) {
-    this.schema = schema
-  }
+  constructor(protected schema: Schema) {}
 
   public validate(payload: Record<string, any>): boolean {
     const { validationRules } = this.schema

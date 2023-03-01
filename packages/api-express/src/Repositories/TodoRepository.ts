@@ -1,7 +1,7 @@
+import TodoModel from '~/Models/TodoModel'
+import type { Todo, TodoPayload } from '~/types'
+
 import BaseRepository from './BaseRepository'
-import TodoModel from '../Models/TodoModel'
-import type Todo from '../types/Todo'
-import type TodoPayload from '../types/TodoPayload'
 
 class TodoRepository extends BaseRepository<Todo, TodoPayload> {
   constructor() {

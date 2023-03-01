@@ -1,16 +1,17 @@
 import type { Schema, Schematizeable, ValidationRule } from './Schematizeable'
 
 abstract class BaseSchema implements Schematizeable {
-  protected schema: Schema
+  protected _schema: Schema
+
   constructor(title: string, validationRules: ValidationRule[]) {
-    this.schema = {
+    this._schema = {
       title,
       validationRules,
     }
   }
 
-  get getSchema() {
-    return this.schema
+  get schema() {
+    return this._schema
   }
 }
 
