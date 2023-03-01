@@ -18,9 +18,9 @@
     "lint": "eslint --cache --config ./src/index.cjs ."
   },
   "dependencies": {
-    "@antfu/eslint-config": "^0.34.1",
-    "@types/eslint": "^8.4.10",
-    "eslint": "^8.32.0",
+    "@antfu/eslint-config": "^0.34.2",
+    "@types/eslint": "^8.21.1",
+    "eslint": "^8.35.0",
     "eslint-plugin-unused-imports": "^2.0.0"
   }
 }

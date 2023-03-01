@@ -30,8 +30,8 @@
     "@todo-app/eslint-config": "workspace:*",
     "@todo-app/tsconfig": "workspace:*",
     "@types/pg": "^8.6.6",
-    "eslint": "^8.32.0",
-    "turbo": "^1.7.0"
+    "eslint": "^8.35.0",
+    "turbo": "^1.8.3"
   },
   "eslintConfig": {
     "extends": "@todo-app"
