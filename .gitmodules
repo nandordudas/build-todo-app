@@ -1,0 +1,3 @@
+[submodule "database-adapter-php"]
+	path = database-adapter-php
+	url = https://github.com/csaba-nagy/database-adapter-php
