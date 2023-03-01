@@ -1,91 +1,42 @@
 name: CI
 
+env:
+  HUSKY: 0
+
 permissions: {}
 
 on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
+  workflow_dispatch: {}
 
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
-
-env:
-  HUSKY: 0
+  group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  prepare:
+  ci:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - run: corepack enable
 
-      - name: Install pnpm
-        id: pnpm-install
-        uses: pnpm/action-setup@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
 
-  lint:
-    needs: prepare
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install pnpm
-        id: pnpm-install
-        uses: pnpm/action-setup@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: package.json
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Lint code with ESLint
+      - name: 📝 Lint code
         run: pnpm lint
 
-  typecheck:
-    needs: prepare
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install pnpm
-        id: pnpm-install
-        uses: pnpm/action-setup@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: package.json
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Check types with TypeScript
+      - name: 💪 Check types
         run: pnpm typecheck
