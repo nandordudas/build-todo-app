@@ -10,7 +10,7 @@
     "./tsconfig.strictest.json"
   ],
   "dependencies": {
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "devDependencies": {
     "@types/node": "*"
