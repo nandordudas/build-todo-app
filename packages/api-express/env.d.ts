@@ -1,9 +1,9 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
+    PGDATABASE?: string
+    PGHOST?: string
+    PGPASSWORD?: string
     PGPORT?: string
     PGUSER?: string
-    PGHOST?: string
-    PGDATABASE?: string
-    PGPASSWORD?: string
   }
 }
