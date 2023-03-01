@@ -1,8 +1,6 @@
-import type Todo from './Todo'
+import type { Todo } from '~/types'
 
-interface TodoResponse {
+export interface TodoResponse {
   status: 'OK' | 'FAILED'
   data: Todo | Todo[] | string
 }
-
-export default TodoResponse

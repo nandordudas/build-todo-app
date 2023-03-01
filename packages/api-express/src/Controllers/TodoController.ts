@@ -1,14 +1,13 @@
 import type { NextFunction, Request, Response } from 'express'
 
+import { HttpStatusCodes } from '~/Enums/HttpStatusCodes'
+import TodoRepository from '~/Repositories/TodoRepository'
+import type { Todo, TodoPayload, TodoResponse } from '~/types'
+import ResponseError from '~/Utilities/Errors/ResponseError'
+import ValidationError from '~/Utilities/Errors/ValidationError'
+import PayloadValidator from '~/Utilities/Validators/PayloadValidator'
+
 import BaseController from './BaseController'
-import HttpStatusCodes from '../Enums/HttpStatusCodes'
-import TodoRepository from '../Repositories/TodoRepository'
-import type Todo from '../types/Todo'
-import type TodoPayload from '../types/TodoPayload'
-import type TodoResponse from '../types/TodoResponse'
-import ResponseError from '../Utilities/Errors/ResponseError'
-import ValidationError from '../Utilities/Errors/ValidationError'
-import PayloadValidator from '../Utilities/Validators/PayloadValidator'
 
 class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator> {
   constructor() {
@@ -16,13 +15,13 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
   }
 
   public override index = async (
-    request: Request,
+    request: Request<{}, {}, {}, { limit: string; offset: string }>,
     response: Response<TodoResponse>,
-    next: NextFunction) => {
+    next: NextFunction,
+  ) => {
     try {
-      const limit = parseInt(request.query.limit as string) || 10
-      const offset = parseInt(request.query.offset as string) || 0
-
+      const limit = parseInt(request.query.limit) || 10
+      const offset = parseInt(request.query.offset) || 0
       const result = await this.repository.getAll(limit, offset)
 
       if (!result)
@@ -34,17 +33,17 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
       })
     }
     catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public override show = async (
-    request: Request,
+    request: Request<{ id: string }, {}, {}, {}>,
     response: Response<TodoResponse>,
-    next: NextFunction) => {
+    next: NextFunction,
+  ) => {
     try {
       const { id } = request.params
-
       const result = await this.repository.getById(id)
 
       if (!result)
@@ -56,14 +55,15 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
       })
     }
     catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public override store = async (
     request: Request,
     response: Response<TodoResponse>,
-    next: NextFunction) => {
+    next: NextFunction,
+  ) => {
     try {
       const payload: TodoPayload = request.body
 
@@ -81,18 +81,18 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
       })
     }
     catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public override update = async (
-    request: Request,
+    request: Request<{ id: string }, {}, TodoPayload, {}>,
     response: Response<TodoResponse>,
-    next: NextFunction) => {
+    next: NextFunction,
+  ) => {
     try {
       const { id } = request.params
-
-      const payload: TodoPayload = request.body
+      const payload = request.body
 
       if (!payload || !this.validator.validate(payload))
         throw new ValidationError(HttpStatusCodes.BAD_REQUEST, 'Missing or invalid payload parameters!')
@@ -108,17 +108,17 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
       })
     }
     catch (error) {
-      next(error)
+      return next(error)
     }
   }
 
   public override destroy = async (
-    request: Request,
+    request: Request<{ id: string }, {}, {}, {}>,
     response: Response<TodoResponse>,
-    next: NextFunction) => {
+    next: NextFunction,
+  ) => {
     try {
       const { id } = request.params
-
       const result = await this.repository.delete(id)
 
       if (!result)
@@ -130,7 +130,7 @@ class TodoController extends BaseController<Todo, TodoPayload, PayloadValidator>
       })
     }
     catch (error) {
-      next(error)
+      return next(error)
     }
   }
 }

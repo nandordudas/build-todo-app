@@ -3,7 +3,7 @@ import type { Schema } from './Schema/Schematizeable'
 import Validator from './Validator'
 
 class EnvValidator extends Validator {
-  constructor(schema: Schema = new EnvFileSchema().getSchema) {
+  constructor(schema: Schema = new EnvFileSchema().schema) {
     super(schema)
   }
 

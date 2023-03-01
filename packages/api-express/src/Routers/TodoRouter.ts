@@ -1,13 +1,14 @@
 import { Router } from 'express'
 
-import TodoController from '../Controllers/TodoController'
+import TodoController from '~/Controllers/TodoController'
 
 class TodoRouter {
-  protected controller
   public router: Router
-  constructor(controller = new TodoController()) {
+
+  constructor(protected controller = new TodoController()) {
     this.router = Router()
     this.controller = controller
+
     this.initRoutes()
   }
 

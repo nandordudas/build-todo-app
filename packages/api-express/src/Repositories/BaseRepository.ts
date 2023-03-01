@@ -1,19 +1,14 @@
-import type BaseModel from '../Models/BaseModel'
-import type BaseModelType from '../types/BaseModelType'
-import type { Payload } from '../types/Payload'
+import type BaseModel from '~/Models/BaseModel'
+import type { BaseModelType, Payload } from '~/types'
 
 abstract class BaseRepository<T extends BaseModelType, V extends Payload> {
-  protected model: BaseModel<T, V>
-
-  constructor(model: BaseModel<T, V>) {
-    this.model = model
-  }
+  constructor(protected model: BaseModel<T, V>) {}
 
   public abstract getAll(_limit: number, _offset: number): Promise<T[]>
 
   public abstract create(_payload: V): Promise<T | undefined>
 
-  public abstract getById(_id: string): Promise<T>
+  public abstract getById(_id: string): Promise<T | undefined>
 
   public abstract update(_id: string, _payload: V): Promise<T | undefined>
 

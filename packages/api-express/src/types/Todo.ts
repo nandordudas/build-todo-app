@@ -1,7 +1,6 @@
-import type BaseModelType from './BaseModelType'
-import type { TodoStatus } from './TodoStatuses'
+import type { BaseModelType, TodoStatus } from '~/types'
 
-interface Todo extends BaseModelType {
+export interface Todo extends BaseModelType {
   id: string
   title: string
   created_at: string
@@ -9,5 +8,3 @@ interface Todo extends BaseModelType {
   parent_todo_id: string
   status: TodoStatus
 }
-
-export default Todo

@@ -11,5 +11,5 @@ export interface Schema {
 }
 
 export interface Schematizeable {
-  get getSchema(): Schema
+  get schema(): Schema
 }

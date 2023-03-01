@@ -3,7 +3,7 @@ import type { Schema } from './Schema/Schematizeable'
 import Validator from './Validator'
 
 class PayloadValidator extends Validator {
-  constructor(schema: Schema = new PayloadSchema().getSchema) {
+  constructor(schema: Schema = new PayloadSchema().schema) {
     super(schema)
   }
 }

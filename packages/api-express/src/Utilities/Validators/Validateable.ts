@@ -1,5 +1,3 @@
-interface Validateable {
+export interface Validateable {
   validate(payload: Record<string, any>): boolean
 }
-
-export default Validateable
