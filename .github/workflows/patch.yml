@@ -1,8 +1,6 @@
 name: Patch
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 on:
   pull_request:
@@ -25,6 +23,9 @@ jobs:
           node-version-file: package.json
 
       - name: 🦜 Bump up version
-        run: npx bumpp patch --yes
+        run: |
+          git config --global user.name "Release Parrot"
+          git config --global user.email release.parrot@bump.patch
+          npx bumpp patch --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
