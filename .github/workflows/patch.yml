@@ -1,6 +1,7 @@
 name: Patch
 
-permissions: {}
+permissions:
+  pull-requests: write
 
 on:
   pull_request:
