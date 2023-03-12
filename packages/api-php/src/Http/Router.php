@@ -67,7 +67,6 @@ class Router
     if (is_array($action)) {
       [$class, $method] = $action;
 
-      // class_exists not works when we use namespaces
       if (class_exists($class)) {
         $class = new $class();
 
