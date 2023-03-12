@@ -7,22 +7,20 @@ namespace TodoApp\ApiPhp\Http;
 class Request
 {
   private string $requestUri;
-  private string $requestQuery;
+  private ?string $requestQuery;
   private string $requestMethod;
-  private array $payload;
-  private array $params;
+  private ?array $payload;
+  private ?array $params;
 
   public function __construct()
   {
     $this->requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    $this->requestQuery = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ?? file_get_contents('php://input');
+    $this->requestQuery = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
 
     $this->requestMethod = strtolower($_SERVER['REQUEST_METHOD']);
 
-    parse_str($this->requestQuery, $result);
-
-    $this->payload = $result;
+    $this->payload = json_decode(file_get_contents('php://input'), true);
   }
 
   public function getRequestMethod(): string
@@ -35,7 +33,7 @@ class Request
       return $this->requestUri;
   }
 
-  public function getPayload(): array
+  public function getPayload(): ?array
   {
       return $this->payload;
   }

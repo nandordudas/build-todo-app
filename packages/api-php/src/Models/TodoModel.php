@@ -92,7 +92,7 @@ class TodoModel extends BaseModel
       $this->setStatus((int) $payload['id'], $payload['status']);
     }
 
-    return $this->getById($payload['id']);
+    return $this->getById((int) $payload['id']);
   }
 
   public function delete(int $id): bool
@@ -102,7 +102,7 @@ class TodoModel extends BaseModel
       from todos
     where 1=1
       and todos.id = :id
-    return todos.id
+    returning todos.id
   SQL;
 
   $result = $this->database->fetch($query, ['id' => $id]);
@@ -110,7 +110,7 @@ class TodoModel extends BaseModel
   return !empty($result);
   }
 
-  private function setStatus(int $id, ?TodoStatuses $status = null): void
+  private function setStatus(int $id, ?string $status = null): void
   {
     $query = <<<SQL
             insert into todo_status(todo_id, status_id)
