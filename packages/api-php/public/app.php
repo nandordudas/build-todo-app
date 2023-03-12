@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use TodoApp\ApiPhp\Controllers\TodoController;
-use TodoApp\ApiPhp\Routers\Router;
+use TodoApp\ApiPhp\Http\Request;
+use TodoApp\ApiPhp\Http\Router;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$controller = new TodoController();
+$router = new Router(new Request());
 
-$router = new Router();
+$router
+  ->get('/todos', ['TodoApp\ApiPhp\Controllers\TodoController', 'index'])
+  ->get('/todos/{id}', ['TodoApp\ApiPhp\Controllers\TodoController', 'show']);
 
-$router->get('/', [$controller, 'index']);
-
-var_dump($router->resolve());
+var_dump($router->resolve()->send());

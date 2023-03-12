@@ -4,37 +4,24 @@ declare(strict_types=1);
 
 namespace TodoApp\ApiPhp\Controllers;
 
-use Exception;
+use TodoApp\ApiPhp\Contracts\Controlable;
+use TodoApp\ApiPhp\Http\Request;
+use TodoApp\ApiPhp\Http\Response;
 use TodoApp\ApiPhp\Repositories\BaseRepository;
 
-abstract class BaseController
+abstract class BaseController implements Controlable
 {
   public function __construct(protected BaseRepository $repository)
   {
   }
 
-  public function index(): ?array
-  {
-    return $this->repository->findAll();
-  }
+  abstract public function index(): Response;
 
-  public function show(int $id): array
-  {
-      return $this->repository->getById($id);
-  }
+  abstract public function show(Request $request): Response;
 
-  public function store(array $payload): array
-  {
-    return $this->repository->create($payload);
-  }
+  abstract public function store(Request $request): Response;
 
-  public function update(array $payload): array
-  {
-    return $this->repository->update($payload);
-  }
+  abstract public function update(Request $request): Response;
 
-  public function destroy(int $id): void
-  {
-    $this->repository->delete($id);
-  }
+  abstract public function destroy(Request $request): Response;
 }
