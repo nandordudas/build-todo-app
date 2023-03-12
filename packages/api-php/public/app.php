@@ -3,10 +3,14 @@
 declare(strict_types=1);
 
 use TodoApp\ApiPhp\Controllers\TodoController;
-use TodoApp\ApiPhp\Enums\Statuses;
+use TodoApp\ApiPhp\Routers\Router;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $controller = new TodoController();
 
-var_dump($controller->index());
+$router = new Router();
+
+$router->get('/', [$controller, 'index']);
+
+var_dump($router->resolve());
