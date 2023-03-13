@@ -22,7 +22,7 @@ abstract class BaseRepository
     return $this->model->create($payload);
   }
 
-  public function getById(int $id): array
+  public function getById(int $id): ?array
   {
     return $this->model->getById($id);
   }
@@ -32,8 +32,8 @@ abstract class BaseRepository
     return $this->model->update($payload);
   }
 
-  public function delete(int $id): void
+  public function delete(int $id): bool
   {
-    $this->model->delete($id);
+    return $this->model->delete($id);
   }
 }

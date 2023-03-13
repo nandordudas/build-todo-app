@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TodoApp\ApiPhp\Models;
 
 use TodoApp\ApiPhp\Database\Database;
-use TodoApp\ApiPhp\Enums\Statuses;
+use TodoApp\ApiPhp\Enums\TodoStatuses;
 
 class TodoModel extends BaseModel
 {
@@ -51,7 +51,7 @@ class TodoModel extends BaseModel
     return $this->getById($lastInsertedId);
   }
 
-  public function getById(int $id): array
+  public function getById(int $id): ?array
   {
     $query = <<<SQL
     select
@@ -92,22 +92,25 @@ class TodoModel extends BaseModel
       $this->setStatus((int) $payload['id'], $payload['status']);
     }
 
-    return $this->getById($payload['id']);
+    return $this->getById((int) $payload['id']);
   }
 
-  public function delete(int $id): void
+  public function delete(int $id): bool
   {
     $query = <<<SQL
     delete
       from todos
     where 1=1
       and todos.id = :id
+    returning todos.id
   SQL;
 
-  $this->database->fetch($query, ['id' => $id]);
+  $result = $this->database->fetch($query, ['id' => $id]);
+
+  return !empty($result);
   }
 
-  private function setStatus(int $id, ?Statuses $status = null): void
+  private function setStatus(int $id, ?string $status = null): void
   {
     $query = <<<SQL
             insert into todo_status(todo_id, status_id)
@@ -116,6 +119,6 @@ class TodoModel extends BaseModel
               set status_id = :status_id
             SQL;
 
-    $this->database->fetch($query, ['todo_id' => $id, 'status_id' => $status?->value ?? Statuses::PENDING->value]);
+    $this->database->fetch($query, ['todo_id' => $id, 'status_id' => $status?->value ?? TodoStatuses::PENDING->value]);
   }
 }
